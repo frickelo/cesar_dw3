@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use App\Models\Alumno;
+use App\Models\Curso;
 use Illuminate\Http\Request;
 
 
@@ -28,7 +29,9 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return view('alumnos.create');
+        
+        $cursos =Curso::pluck('nombre','id');
+        return view('alumnos.create',compact('cursos'));
     }
 
     /**
@@ -50,10 +53,11 @@ class AlumnoController extends Controller
      * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function show(Alumno $alumno)
+    public function show($id)
     {
+        $cursos= Curso::pluck('nombre','id');
          $alumnos=Alumno::findorFail($id);
-        return view ('alumnos.show', compact('alumnos'));
+        return view ('alumnos.show', compact('alumnos', 'cursos'));
     }
 
     /**

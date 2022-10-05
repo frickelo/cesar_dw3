@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Models\Curso;
 use Illuminate\Http\Request;
 
@@ -26,7 +26,8 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('cursos.create');
     }
 
     /**
@@ -37,7 +38,9 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cursos= request()->except('_token');
+        Curso::insert($cursos);
+        return redirect (route('cursos.index'));
     }
 
     /**
@@ -46,9 +49,10 @@ class CursoController extends Controller
      * @param  \App\Models\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function show(cr $cr)
+    public function show($id)
     {
-        //
+        $cursos=Curso::findorFail($id);
+        return view ('cursos.show', compact('cursos'));
     }
 
     /**
@@ -57,9 +61,10 @@ class CursoController extends Controller
      * @param  \App\Models\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function edit(cr $cr)
+    public function edit($id)
     {
-        //
+        $cursos=Curso::findorFail($id);
+        return view ('cursos.edit', compact('cursos'));
     }
 
     /**
@@ -69,9 +74,11 @@ class CursoController extends Controller
      * @param  \App\Models\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, cr $cr)
+    public function update(Request $request, $id)
     {
-        //
+        $cursos=request()->except(['_token','_method']);
+     Curso::where('id','=',$id)->update($cursos);
+        return redirect ('cursos');
     }
 
     /**
@@ -80,8 +87,9 @@ class CursoController extends Controller
      * @param  \App\Models\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cr $cr)
+    public function destroy($id)
     {
-        //
+        Curso::destroy($id);
+        return redirect('cursos');
     }
 }

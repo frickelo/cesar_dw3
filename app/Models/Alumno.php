@@ -10,7 +10,7 @@ class Alumno extends Model
     use HasFactory;
     public $table = 'alumnos';
     public $fillable =[
-        'curso_id',
+        'cursos_id',
         'nombre',
         'apellido',
         'edad',
@@ -22,4 +22,7 @@ class Alumno extends Model
         'genero' ,
         'fechanac'
     ];
+    public function cursos(){
+        return $this->belongTo('App\Model\Curso');
+    }
 }
